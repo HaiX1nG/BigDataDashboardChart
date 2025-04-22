@@ -1,25 +1,37 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import * as echarts from 'echarts';
 import EChartsReact from 'echarts-for-react';
+import instance from '../request/request';
+
+interface day {
+    day: string,
+    userCnt: number,
+    pvCnt: number,
+    favCnt: number,
+    cartCnt: number,
+    buyCnt: number
+}
 
 function DailyTrafficAnalysis() {
-    let xjcs = [1, 4.4, 3, 5, 2.5, 1, 3, 4.4, 3, 5, 2.5, 1];
-    let xjgls = [160, 280, 300, 220, 280, 164, 160, 280, 320, 220, 180, 224];
-    let myData1 = [
-        "1月",
-        "2月",
-        "3月",
-        "4月",
-        "5月",
-        "6月",
-        "7月",
-        "8月",
-        "9月",
-        "10月",
-        "11月",
-        "12月",
-    ];
+    const [data, setData] = useState<day[]>([])
+
+    useEffect(() => {
+        instance.get('http://localhost:8080/day/select').then(res => {
+            if (res.status === 200) {
+                setData(res.data)
+            } else {
+                console.log("请求错误");
+            }
+        })
+    }, [])
+
     const option = {
+        title: {
+            text: '每日趋势分析',
+            textStyle: {
+                fontSize: '15px'
+            }
+        },
         tooltip: {
             trigger: "axis",
             axisPointer: {
@@ -30,7 +42,14 @@ function DailyTrafficAnalysis() {
                 fontSize: 12,
             },
             confine: true, // 超出范围
-            formatter: "{b}<br>{a}：{c} 个<br>{a1}：{c1} 元",
+            formatter: (params: any) => {
+                console.log(params);
+                return `每日趋势分析<br />
+                        日期: ${params[0].name}<br />
+                        用户访问数: ${params[0].value} 次<br />
+                        页面访问数: ${params[1].value} 次
+                `;
+            }
         },
         legend: {
             top: "4%",
@@ -54,7 +73,7 @@ function DailyTrafficAnalysis() {
         xAxis: [
             {
                 type: "category",
-                data: myData1,
+                data: data.map(i => i.day),
                 axisTick: {
                     show: false,
                     alignWithLabel: true,
@@ -65,8 +84,9 @@ function DailyTrafficAnalysis() {
                     },
                 },
                 axisLabel: {
-                    interval: 0,
+                    interval: 1,
                     margin: 10,
+                    // rotate: 30,
                     color: "#05D5FF",
                     textStyle: {
                         fontSize: 14,
@@ -78,7 +98,7 @@ function DailyTrafficAnalysis() {
         yAxis: [
             {
                 type: "value",
-                name: "单位/个",
+                name: "单位/次",
                 splitNumber: 5,
                 nameTextStyle: {
                     color: "#2C3E50",
@@ -114,7 +134,7 @@ function DailyTrafficAnalysis() {
                 },
             },
             {
-                name: "单位/元",
+                name: "单位/次",
                 splitNumber: 5,
                 type: "value",
                 nameTextStyle: {
@@ -143,9 +163,9 @@ function DailyTrafficAnalysis() {
             },
         ],
         series: [
-
+            // 访问数
             {
-                name: "订单数量",
+                name: "页面访问数",
                 type: "line",
                 yAxisIndex: 1, // 与第二个 y 轴关联
                 showSymbol: true,
@@ -182,14 +202,14 @@ function DailyTrafficAnalysis() {
                         ]
                     }
                 },
-                data: xjgls, // 折线图的数据
+                data: data.map(i => i.pvCnt), // 折线图的数据
             },
-
+            // 购买数
             {
-                name: "订单金额",
+                name: "用户访问数",
                 type: "bar",
                 barWidth: "25",
-                data: xjcs,
+                data: data.map(i => i.userCnt),
                 itemStyle: {
                     normal: {
                         color: '#FA6400'
@@ -199,10 +219,10 @@ function DailyTrafficAnalysis() {
         ],
     };
     return (
-        <div>
-            <EChartsReact 
+        <div style={{ width: '100%', height: '310px' }}>
+            <EChartsReact
                 option={option}
-                style={{ width: '100%', height: '30vh' }}
+                style={{ width: '100%', height: '100%' }}
             />
         </div>
     );

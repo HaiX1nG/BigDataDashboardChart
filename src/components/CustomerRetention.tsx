@@ -1,29 +1,61 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { ECharts } from 'echarts';
 import EChartsReact from 'echarts-for-react';
+import instance from '../request/request';
+
+interface userRetention {
+    day: string,
+    reten1Rate: number,
+    reten3Rate: number,
+    reten5Rate: number
+}
 
 function CustomerRetention() {
+    const [data, setData] = useState<userRetention[]>([])
+
+    useEffect(() => {
+        instance.get('http://localhost:8080/UserRetentionAnalysis/select').then(res => {
+            if(res.status) {
+                setData(res.data)
+            }else {
+                console.log("用户留存率请求错误");
+            }
+        })
+    }, [])
+
     const option = {
+        title: {
+            text: '用户留存率分析',
+            textStyle: {
+                fontSize: '15px'
+            }
+        },
         legend: {
-            
+            top: 'bottom',
+            data: ['第一天留存率', '第三天留存率', '第五天留存率']
         },
         xAxis: {
             type: 'category',
-            data: ['A', 'B', 'C'] // 类别轴数据
+            data: data.map(i => i.day) // 类别轴数据
         },
         yAxis: {
             type: 'value' // 数值轴
         },
         series: [
             {
-                name: '数据1',
-                data: [50, 20, 60], // 数据1
+                name: '第一天留存率',
+                data: data.map(i => i.reten1Rate), // 数据1
                 type: 'line',
                 smooth: true, // 使折线变得平滑
                 lineStyle: {
                     width: 3,
                     color: '#5470c6'
                 },
+                label: {
+                    show: true,
+                    position: 'top',
+                    formatter: '{c}%'
+                },
                 symbol: 'circle',
                 symbolSize: 8,
                 itemStyle: {
@@ -31,13 +63,18 @@ function CustomerRetention() {
                 }
             },
             {
-                name: '数据2',
-                data: [30, 80, 40], // 数据2
+                name: '第三天留存率',
+                data: data.map(i => i.reten3Rate), // 数据2
                 type: 'line',
                 smooth: true,
                 lineStyle: {
                     width: 3,
                     color: '#91cc75'
+                },
+                label: {
+                    show: true,
+                    position: 'top',
+                    formatter: '{c}%'
                 },
                 symbol: 'circle',
                 symbolSize: 8,
@@ -46,13 +83,18 @@ function CustomerRetention() {
                 }
             },
             {
-                name: '数据3',
-                data: [70, 40, 50], // 数据3
+                name: '第五天留存率',
+                data: data.map(i => i.reten5Rate), // 数据3
                 type: 'line',
                 smooth: true,
                 lineStyle: {
                     width: 3,
                     color: '#fac858'
+                },
+                label: {
+                    show: true,
+                    position: 'top',
+                    formatter: '{c}%'
                 },
                 symbol: 'circle',
                 symbolSize: 8,

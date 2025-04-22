@@ -1,11 +1,29 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { ECharts } from 'echarts';
 import EChartsReact from 'echarts-for-react';
+import instance from '../request/request';
+
+interface item {
+    itemId: number,
+    cnt: number
+}
 
 function ItemCnt() {
+    const [data, setData] = useState<item[]>([])
+
+    useEffect(() => {
+        instance.get('http://localhost:8080/top10item/select').then(res => {
+            if(res.status === 200) {
+                setData(res.data)
+            }else {
+                console.log('请求出错!');
+            }
+        })
+    }, [])
+
     const option = {
         title: {
-            text: 'World Population'
+            text: '热门商品TOP10'
         },
         tooltip: {
             trigger: 'axis',
@@ -26,18 +44,13 @@ function ItemCnt() {
         },
         yAxis: {
             type: 'category',
-            data: ['Brazil', 'Indonesia', 'USA', 'India', 'China', 'World']
+            data: data.map(i => i.itemId)
         },
         series: [
             {
-                name: '2011',
+                name: '购买数量',
                 type: 'bar',
-                data: [18203, 23489, 29034, 104970, 131744, 630230]
-            },
-            {
-                name: '2012',
-                type: 'bar',
-                data: [19325, 23438, 31000, 121594, 134141, 681807]
+                data: data.map(i => i.cnt)
             }
         ]
     };
