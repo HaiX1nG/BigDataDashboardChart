@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import * as echarts from 'echarts';
+import { useEffect, useState } from 'react';
 import EChartsReact from 'echarts-for-react';
 import instance from '../request/request';
-import Item from 'antd/es/list/Item';
 interface FunnelData {
   name: string,
   value: number,
@@ -13,7 +11,7 @@ function FunnelAnalysis() {
   const [data, setData] = useState<FunnelData[]>([]);
 
   useEffect(() => {
-    instance.get('http://localhost:3000/TrafficFunnelConversionAnalysis/select').then(res => {
+    instance.get('/TrafficFunnelConversionAnalysis/select').then(res => {
       if (res.status === 200) {
         setData(res.data)
       } else {

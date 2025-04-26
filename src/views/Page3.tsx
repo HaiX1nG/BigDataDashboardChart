@@ -1,5 +1,3 @@
-import React from 'react';
-import * as echarts from 'echarts';
 import EChartsReact from 'echarts-for-react';
 
 function Page3() {

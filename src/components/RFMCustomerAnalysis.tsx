@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import * as echarts from 'echarts';
+import { useEffect, useState } from 'react';
 import EChartsReact from 'echarts-for-react';
 import instance from '../request/request';
 
@@ -12,7 +11,7 @@ function RFMCustomerAnalysis() {
     const [data, useData] = useState<RFMData[]>([]);
 
     useEffect(() => {
-        instance.get('http://localhost:3000/rfm/select').then(res => {
+        instance.get('/rfm/select').then(res => {
             if(res.status === 200) {
                 useData(res.data)
             } else {

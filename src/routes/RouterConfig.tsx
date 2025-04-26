@@ -1,4 +1,4 @@
-import React, { lazy, Suspense } from 'react';
+import { lazy, Suspense } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 const BackendManagement = lazy(() => import('../views/BackendManagement'));
 const Page1 = lazy(() => import('../views/Page1'));

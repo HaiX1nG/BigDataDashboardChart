@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import { ECharts } from 'echarts';
+import { useEffect, useState } from 'react';
 import EChartsReact from 'echarts-for-react';
 import instance from '../request/request';
 
@@ -12,7 +11,7 @@ function ItemCnt() {
     const [data, setData] = useState<item[]>([])
 
     useEffect(() => {
-        instance.get('http://localhost:3000/top10item/select').then(res => {
+        instance.get('/top10item/select').then(res => {
             if(res.status === 200) {
                 setData(res.data)
             }else {

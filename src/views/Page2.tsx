@@ -1,4 +1,3 @@
-import React from 'react';
 import EChartsReact from 'echarts-for-react';
 import * as echarts from 'echarts';
 

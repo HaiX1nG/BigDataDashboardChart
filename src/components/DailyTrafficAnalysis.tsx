@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import * as echarts from 'echarts';
+import { useEffect, useState } from 'react';
 import EChartsReact from 'echarts-for-react';
 import instance from '../request/request';
 
@@ -16,7 +15,7 @@ function DailyTrafficAnalysis() {
     const [data, setData] = useState<day[]>([])
 
     useEffect(() => {
-        instance.get('http://localhost:3000/day/select').then(res => {
+        instance.get('/day/select').then(res => {
             if (res.status === 200) {
                 setData(res.data)
             } else {
