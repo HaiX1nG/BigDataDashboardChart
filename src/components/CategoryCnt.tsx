@@ -12,7 +12,7 @@ function CategoryCnt() {
     const [data, setData] = useState<category[]>([]);
 
     useEffect(() => {
-        instance.get("http://localhost:8080/top10category/select").then(res => {
+        instance.get("http://localhost:3000/top10category/select").then(res => {
             if(res.status) {
                 setData(res.data)
             }else {
@@ -32,7 +32,8 @@ function CategoryCnt() {
             trigger: 'axis',
             axisPointer: {
                 type: 'shadow'
-            }
+            },
+            formatter: '热门商品类别top10<br />商品类别ID: {b}<br /> 商品购买数量: {c} 个'
         },
         legend: {},
         grid: {

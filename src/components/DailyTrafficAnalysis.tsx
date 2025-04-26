@@ -16,7 +16,7 @@ function DailyTrafficAnalysis() {
     const [data, setData] = useState<day[]>([])
 
     useEffect(() => {
-        instance.get('http://localhost:8080/day/select').then(res => {
+        instance.get('http://localhost:3000/day/select').then(res => {
             if (res.status === 200) {
                 setData(res.data)
             } else {

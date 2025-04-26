@@ -17,7 +17,7 @@ function DashboardChart() {
     const [loadingBuyAll, setLoadingBuyAll] = useState(true)
 
     useEffect(() => {
-        instance.get('http://localhost:8080/day/allUser').then(res => {
+        instance.get('http://localhost:3000/day/allUser').then(res => {
             if (res.status === 200) {
                 setUserData(res.data)
             } else {
@@ -29,7 +29,7 @@ function DashboardChart() {
     }, [])
 
     useEffect(() => {
-        instance.get('http://localhost:8080/top10category/buyAll').then(res => {
+        instance.get('http://localhost:3000/top10category/buyAll').then(res => {
             if (res.status === 200) {
                 setBuyAll(res.data)
             } else {

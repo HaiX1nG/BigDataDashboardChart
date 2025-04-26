@@ -12,7 +12,7 @@ function RFMCustomerAnalysis() {
     const [data, useData] = useState<RFMData[]>([]);
 
     useEffect(() => {
-        instance.get('http://localhost:8080/rfm/select').then(res => {
+        instance.get('http://localhost:3000/rfm/select').then(res => {
             if(res.status === 200) {
                 useData(res.data)
             } else {

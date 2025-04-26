@@ -14,7 +14,7 @@ function CustomerRetention() {
     const [data, setData] = useState<userRetention[]>([])
 
     useEffect(() => {
-        instance.get('http://localhost:8080/UserRetentionAnalysis/select').then(res => {
+        instance.get('http://localhost:3000/UserRetentionAnalysis/select').then(res => {
             if(res.status) {
                 setData(res.data)
             }else {

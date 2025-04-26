@@ -12,7 +12,7 @@ function ItemCnt() {
     const [data, setData] = useState<item[]>([])
 
     useEffect(() => {
-        instance.get('http://localhost:8080/top10item/select').then(res => {
+        instance.get('http://localhost:3000/top10item/select').then(res => {
             if(res.status === 200) {
                 setData(res.data)
             }else {
@@ -29,7 +29,8 @@ function ItemCnt() {
             trigger: 'axis',
             axisPointer: {
                 type: 'shadow'
-            }
+            },
+            formatter: '热门商品类别top10<br />商品类别ID: {b}<br /> 商品购买数量: {c} 个'
         },
         legend: {},
         grid: {

@@ -13,7 +13,7 @@ function FunnelAnalysis() {
   const [data, setData] = useState<FunnelData[]>([]);
 
   useEffect(() => {
-    instance.get('http://localhost:8080/TrafficFunnelConversionAnalysis/select').then(res => {
+    instance.get('http://localhost:3000/TrafficFunnelConversionAnalysis/select').then(res => {
       if (res.status === 200) {
         setData(res.data)
       } else {

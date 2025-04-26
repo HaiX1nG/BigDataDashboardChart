@@ -16,7 +16,7 @@ function HourlyTrafficAnalysis() {
     const [data, useData] = useState<hour[]>([])
 
     useEffect(() => {
-        instance.get('http://localhost:8080/hour/select').then(res => {
+        instance.get('http://localhost:3000/hour/select').then(res => {
             if(res.status === 200) {
                 useData(res.data)
             }else {
